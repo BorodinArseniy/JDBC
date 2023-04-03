@@ -69,7 +69,7 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
                 String gender = resultSet.getString("gender");
                 int age = resultSet.getInt("age");
                 City city = new City(resultSet.getInt("city_id"), resultSet.getString("city_name"));
-                employees.add(new Employee(id, first_name, last_name, gender, age, city));
+                employees.add(new Employee(first_name, last_name, gender, age, city));
             }
 
         } catch (SQLException e) {

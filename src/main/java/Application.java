@@ -26,9 +26,8 @@ public class Application {
 
         try(Connection connection = DriverManager.getConnection(url,user,password)){
                 EmployeeDAO employeeDAO = new EmployeeDAOJdbc(connection);
-                employeeDAO.addEmployee(new Employee(5, "Evgeniy", "Vorobiev", "male", 65, new City(6, "Barcelona")));
-            System.out.println(employeeDAO.getEmployeeById(1));
-            System.out.println(employeeDAO.getEmployeeById(5));
+                employeeDAO.addEmployee(new Employee("Evgeniy", "Vorobiev", "male", 65, new City(6, "Barcelona")));
+            System.out.println(employeeDAO.getAll());
         }
 
 
