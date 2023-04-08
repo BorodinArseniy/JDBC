@@ -12,4 +12,9 @@ public class EntityManagerFactoryUtil {
         return entityManager;
     }
 
+    public static void closeEntityManager(EntityManagerFactory entityManagerFactory, EntityManager entityManager) {
+        entityManagerFactory.close();
+        entityManager.close();
+    }
+
 }

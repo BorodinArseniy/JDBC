@@ -46,9 +46,9 @@ public class Application {
         EntityManager entityManager = entityManagerFactory.createEntityManager();*/
 
         EmployeeDAO employeeDAO = new EmployeeDAOJdbc();
+        Employee employee = new Employee("Sasha", "Morozov", "male", 15, 1);
 
-        System.out.println(employeeDAO.getEmployeeById(1));
-
+        employeeDAO.addEmployee(employee);
 
 
     }

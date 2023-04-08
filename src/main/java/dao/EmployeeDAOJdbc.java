@@ -6,10 +6,7 @@ import pojo.Employee;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 
@@ -18,7 +15,6 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
     private static EntityManagerFactory entityManagerFactory;
 
     EntityManager entityManager = EntityManagerFactoryUtil.getEntityManager(entityManagerFactory);
-
             /*
     @Override
     public void addEmployee(Employee employee) {
@@ -38,30 +34,60 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
 
     @Override
     public void addEmployee(Employee employee) {
+        entityManager.getTransaction().begin();
 
+        Query query = entityManager.createNativeQuery("INSERT INTO employee (first_name, last_name, gender, age, city) VALUES (?1, ?2, ?3, ?4, ?5)");
+
+        query.setParameter(1, employee.getFirst_name());
+        query.setParameter(2, employee.getLast_name());
+        query.setParameter(3, employee.getGender());
+        query.setParameter(4, employee.getAge());
+        query.setParameter(5, employee.getCity());
+
+        entityManager.persist(employee);
+        entityManager.getTransaction().commit();
+        EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
     }
 
     @Override
     public Employee getEmployeeById(int id) {
+        entityManager.getTransaction().begin();
 
-        Query query = entityManager.createNativeQuery("SELECT * FROM employee WHERE id = ?");
-        query.setParameter(1, id);
-        return (Employee) query;
+        Employee employee = entityManager.find(Employee.class, id);
+        entityManager.getTransaction().commit();
+        EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
+        return employee;
     }
 
     @Override
     public List<Employee> getAll() {
-        return null;
+        entityManager.getTransaction().begin();
+
+        String jpqlQuery = "SELECT s FROM Employee s";
+        TypedQuery<Employee> query = entityManager.createQuery(jpqlQuery, Employee.class);
+        List<Employee> employees = query.getResultList();
+
+        entityManager.getTransaction().commit();
+        EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
+        return employees;
     }
 
     @Override
     public void changeEmployeeById(int id, Employee employee) {
+        entityManager.getTransaction().begin();
+        Employee employee1 = getEmployeeById(id);
+        entityManager.merge(employee);
 
+        entityManager.getTransaction().commit();
+        EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
     }
 
     @Override
     public void deleteEmployeeById(Employee employee) {
-
+        entityManager.getTransaction().begin();
+        entityManager.remove(employee);
+        entityManager.getTransaction().commit();
+        EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
     }
 
     /*
