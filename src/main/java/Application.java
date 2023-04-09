@@ -48,8 +48,11 @@ public class Application {
         EmployeeDAO employeeDAO = new EmployeeDAOJdbc();
         Employee employee = new Employee("Sasha", "Morozov", "male", 15, 1);
 
-        employeeDAO.addEmployee(employee);
-
+        //employeeDAO.addEmployee(employee);
+        //System.out.println(employeeDAO.getEmployeeById(1));
+        //System.out.println(employeeDAO.getAll());
+        //employeeDAO.changeEmployeeById(1, employee);
+        employeeDAO.deleteEmployeeById(employee);
 
     }
 }

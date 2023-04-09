@@ -3,17 +3,13 @@ package dao;
 import config.EntityManagerFactoryUtil;
 import pojo.Employee;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 
 public class EmployeeDAOJdbc implements EmployeeDAO{
 
-    private static EntityManagerFactory entityManagerFactory;
-
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
     EntityManager entityManager = EntityManagerFactoryUtil.getEntityManager(entityManagerFactory);
             /*
     @Override
@@ -46,7 +42,9 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
 
         entityManager.persist(employee);
         entityManager.getTransaction().commit();
+
         EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
+
     }
 
     @Override
@@ -57,6 +55,7 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
         entityManager.getTransaction().commit();
         EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
         return employee;
+
     }
 
     @Override
@@ -89,7 +88,6 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
         entityManager.getTransaction().commit();
         EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
     }
-
     /*
 
     @Override
