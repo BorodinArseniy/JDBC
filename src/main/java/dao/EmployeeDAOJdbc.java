@@ -31,15 +31,6 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
     @Override
     public void addEmployee(Employee employee) {
         entityManager.getTransaction().begin();
-
-        Query query = entityManager.createNativeQuery("INSERT INTO employee (first_name, last_name, gender, age, city) VALUES (?1, ?2, ?3, ?4, ?5)");
-
-        query.setParameter(1, employee.getFirst_name());
-        query.setParameter(2, employee.getLast_name());
-        query.setParameter(3, employee.getGender());
-        query.setParameter(4, employee.getAge());
-        query.setParameter(5, employee.getCity());
-
         entityManager.persist(employee);
         entityManager.getTransaction().commit();
 
@@ -74,17 +65,27 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
     @Override
     public void changeEmployeeById(int id, Employee employee) {
         entityManager.getTransaction().begin();
-        Employee employee1 = getEmployeeById(id);
-        entityManager.merge(employee);
+        Employee employee1 = entityManager.find(Employee.class, id);;
+        entityManager.remove(employee1);
+        employee.setId(employee1.getId());
+        entityManager.persist(employee);
 
         entityManager.getTransaction().commit();
         EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
     }
 
     @Override
-    public void deleteEmployeeById(Employee employee) {
+    public void deleteEmployee(Employee employee) {
         entityManager.getTransaction().begin();
-        entityManager.remove(employee);
+        Query query = entityManager.createNativeQuery("DELETE FROM employee where first_name = ?1 and last_name = ?2 and gender = ?3 and age =?4 and city_id = ?5;");
+        query.setParameter(1, employee.getFirst_name());
+        query.setParameter(2, employee.getLast_name());
+        query.setParameter(3, employee.getGender());
+        query.setParameter(4, employee.getAge());
+        query.setParameter(5, employee.getCity());
+
+        query.executeUpdate();
+        entityManager.clear();
         entityManager.getTransaction().commit();
         EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
     }

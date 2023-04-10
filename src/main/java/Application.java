@@ -52,7 +52,8 @@ public class Application {
         //System.out.println(employeeDAO.getEmployeeById(1));
         //System.out.println(employeeDAO.getAll());
         //employeeDAO.changeEmployeeById(1, employee);
-        employeeDAO.deleteEmployeeById(employee);
+        employeeDAO.changeEmployeeById(24, employee);
+
 
     }
 }
