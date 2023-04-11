@@ -3,6 +3,7 @@ package pojo;
 import jdk.jfr.Enabled;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -21,13 +22,24 @@ public class Employee {
     private String gender;
     @Column(name = "age")
     private int age;
-    @Column(name = "city_id")
-    private int city;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "city_id")
+    private City city;
+
 
     public Employee() {
     }
 
-    public Employee(String first_name, String last_name, String gender, int age, int city) {
+    public Employee(String first_name, String last_name, String gender, int age, City city) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.gender = gender;
+        this.age = age;
+        this.city = city;
+    }
+
+    public Employee(int id, String first_name, String last_name, String gender, int age, City city) {
+        this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.gender = gender;
@@ -75,11 +87,11 @@ public class Employee {
         this.age = age;
     }
 
-    public int getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(int city) {
+    public void setCity(City city) {
         this.city = city;
     }
 

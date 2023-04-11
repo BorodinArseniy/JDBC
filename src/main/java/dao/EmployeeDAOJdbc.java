@@ -63,29 +63,21 @@ public class EmployeeDAOJdbc implements EmployeeDAO{
     }
 
     @Override
-    public void changeEmployeeById(int id, Employee employee) {
+    public Employee updateEmployee(Employee employee) {
         entityManager.getTransaction().begin();
-        Employee employee1 = entityManager.find(Employee.class, id);;
-        entityManager.remove(employee1);
-        employee.setId(employee1.getId());
-        entityManager.persist(employee);
+        Employee employee1 = entityManager.merge(employee);
 
         entityManager.getTransaction().commit();
         EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
+        return employee1;
     }
 
     @Override
     public void deleteEmployee(Employee employee) {
         entityManager.getTransaction().begin();
-        Query query = entityManager.createNativeQuery("DELETE FROM employee where first_name = ?1 and last_name = ?2 and gender = ?3 and age =?4 and city_id = ?5;");
-        query.setParameter(1, employee.getFirst_name());
-        query.setParameter(2, employee.getLast_name());
-        query.setParameter(3, employee.getGender());
-        query.setParameter(4, employee.getAge());
-        query.setParameter(5, employee.getCity());
-
-        query.executeUpdate();
-        entityManager.clear();
+        Employee employee1 = entityManager.find(Employee.class, employee.getId());
+        System.out.println(employee1);
+        entityManager.remove(employee1);
         entityManager.getTransaction().commit();
         EntityManagerFactoryUtil.closeEntityManager(entityManagerFactory, entityManager);
     }

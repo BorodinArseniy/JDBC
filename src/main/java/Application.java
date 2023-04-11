@@ -46,14 +46,14 @@ public class Application {
         EntityManager entityManager = entityManagerFactory.createEntityManager();*/
 
         EmployeeDAO employeeDAO = new EmployeeDAOJdbc();
-        Employee employee = new Employee("Sasha", "Morozov", "male", 15, 1);
+        Employee employee = new Employee(25, "Sasha", "Morozov", "male", 15, new City("Paris"));
 
         //employeeDAO.addEmployee(employee);
         //System.out.println(employeeDAO.getEmployeeById(1));
         //System.out.println(employeeDAO.getAll());
         //employeeDAO.changeEmployeeById(1, employee);
-        employeeDAO.changeEmployeeById(24, employee);
-
+        //employeeDAO.changeEmployeeById(24, employee);
+        employeeDAO.deleteEmployee(employee);
 
     }
 }
